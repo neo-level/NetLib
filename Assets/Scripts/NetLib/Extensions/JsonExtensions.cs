@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
-public class JsonExtensions : MonoBehaviour
+namespace NetLib.Extensions
 {
-    // Start is called before the first frame update
-    void Start()
+    public static class JsonExtensions
     {
-        
-    }
+        public static byte[] ToJsonBinary<T>(this T data) where T : new()
+        {
+            string json = JsonUtility.ToJson(data);
+            return Encoding.ASCII.GetBytes(json);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public static T FromJsonBinary<T>(this byte[] data) where T : new()
+        {
+            string json = Encoding.ASCII.GetString(data);
+            return JsonUtility.FromJson<T>(json);
+        }
     }
 }
